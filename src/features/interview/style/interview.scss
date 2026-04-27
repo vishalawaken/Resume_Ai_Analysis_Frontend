@@ -117,7 +117,7 @@ $severity-low: #3fb950;
     overflow-y: auto;
     min-height: initial;
     max-height: calc(100vh - 3rem);
-    padding-bottom: 5rem;
+    padding-bottom: 2rem;
     align-items: flex-start;
 
 
@@ -128,7 +128,7 @@ $severity-low: #3fb950;
 
 
     section {
-        min-height: 100%;
+        display: block;
     }
 }
 
