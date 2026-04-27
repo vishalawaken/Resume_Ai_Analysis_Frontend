@@ -5,7 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
 
-    const { loading, handleLogin } = useAuth()
+    const { loading, error, setError, handleLogin } = useAuth()
     const navigate = useNavigate()
 
     const [ email, setEmail ] = useState("")
@@ -13,6 +13,13 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setError(null)
+
+        if (!email.trim() || !password.trim()) {
+            setError("Email and password are required")
+            return
+        }
+
         await handleLogin({email,password})
         navigate('/')
     }
@@ -26,18 +33,25 @@ const Login = () => {
         <main>
             <div className="form-container">
                 <h1>Login</h1>
+                
+                {error && (
+                    <div className="error-message" style={{color: 'red', padding: '10px', marginBottom: '15px', backgroundColor: '#ffe6e6', borderRadius: '4px'}}>
+                        {error}
+                    </div>
+                )}
+
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
                         <label htmlFor="email">Email</label>
                         <input
-                            onChange={(e) => { setEmail(e.target.value) }}
+                            onChange={(e) => { setEmail(e.target.value); setError(null) }}
                             type="email" id="email" name='email' placeholder='Enter email address' />
                     </div>
                     <div className="input-group">
                         <label htmlFor="password">Password</label>
                         <input
-                            onChange={(e) => { setPassword(e.target.value) }}
-                            type="password" id="password" name='password' placeholder='Enter password' />
+                            onChange={(e) => { setPassword(e.target.value); setError(null) }}
+                            type="password" id="password" name='password' placeholder='Enter password' autocomplete="current-password" />
                     </div>
                     <button className='button primary-button' >Login</button>
                 </form>
